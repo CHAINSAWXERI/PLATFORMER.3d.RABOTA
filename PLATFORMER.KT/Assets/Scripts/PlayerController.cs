@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 
     public float movementSpeed = 10.0f;
     public float jumpForce = 200.0f;
+    public bool ground;
     Rigidbody rigidbody;
     void Start()
     {
@@ -33,7 +34,26 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            rigidbody.AddForce(Vector3.up * jumpForce);
+            if (ground == true)
+            {
+                rigidbody.AddForce(Vector3.up * jumpForce);
+            }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+       if(collision.gameObject.tag == "Ground")
+       {
+           ground = true;
+       }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+        {
+            ground = false;
         }
     }
 
